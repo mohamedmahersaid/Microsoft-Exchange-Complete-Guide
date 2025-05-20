@@ -1,0 +1,57 @@
+-------------------------------------
+Exchange Server Health Check Report
+-------------------------------------
+
+1. Exchange Services Status
+# Check that all Exchange services are running and set to the correct startup type. 
+Get-Service | Where-Object { $_.DisplayName -like "*Exchange*" -and $_.DisplayName -notlike "*Hyper-V*" } | Format-Table DisplayName, Name, Status
+
+2. Mailbox Database Status
+#Verify that all mailbox databases are mounted and examine whitespace:
+Get-MailboxDatabase -Status | ft Name,Mounted,DatabaseSize,AvailableNewMailboxSpace
+
+3. DAG Replication Health (if applicable)
+# Check database copy status and run replication health tests:
+Get-MailboxDatabaseCopyStatus *
+Test-ReplicationHealth
+
+4. Mail Flow Health
+#Test internal mail flow:
+Test-Mailflow -TargetEmailAddress <test@domain.com>
+
+#Check mail queues:
+Get-Queue
+
+5. Exchange Service Health
+#Verify that essential Exchange services are operational:
+Test-ServiceHealth
+
+6. Outlook and Web Services
+#Test Autodiscover, Outlook connectivity, and Exchange Web Services:
+Test-OutlookConnectivity
+Test-WebServicesConnectivity
+
+7. SSL Certificate Check
+#Ensure certificates are valid and not expiring soon:
+Get-ExchangeCertificate | Select FriendlyName,Subject,NotAfter
+
+8. DNS Configuration Check
+#Check if the mail domain is resolvable:
+Resolve-DnsName mail.domain.com
+
+9. Application Event Log Errors
+#Look for recent Exchange-related errors in the Application event log:
+Get-EventLog -LogName Application -EntryType Error -After (Get-Date).AddDays(-3) | Where {$_.Source -like '*MSExchange*'}
+
+10. Summary & Recommendations
+✔ All critical services running.
+✔ Mail flow tested successfully.
+✔ No major issues found in databases or replication.
+✔ SSL certificates are valid.
+✔ DNS and connectivity tests passed.
+✔ Event log review shows no critical issues.
+
+Recommendations:
+- Continue to monitor daily using scripts.
+- Set alerting for service failures and SSL expiration.
+- Periodically revalidate DAG health and whitespace.

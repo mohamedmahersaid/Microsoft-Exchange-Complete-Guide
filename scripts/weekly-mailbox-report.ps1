@@ -1,0 +1,1 @@
+Get-Mailbox -ResultSize Unlimited | Get-MailboxStatistics | Select DisplayName, LastLogonTime, TotalItemSize, ItemCount | Export-Csv "C:\Reports\WeeklyMailboxReport.csv" -NoTypeInformation

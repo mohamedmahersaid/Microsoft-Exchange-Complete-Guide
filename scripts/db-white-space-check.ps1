@@ -1,0 +1,1 @@
+Get-MailboxDatabase -Status | Select Name, AvailableNewMailboxSpace, DatabaseSize

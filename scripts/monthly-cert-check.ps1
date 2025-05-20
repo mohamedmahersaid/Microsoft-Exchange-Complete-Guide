@@ -1,0 +1,1 @@
+Get-ExchangeCertificate | Where-Object {$_.NotAfter -lt (Get-Date).AddDays(30)} | Select FriendlyName, Subject, NotAfter

@@ -1,0 +1,2 @@
+$logPath = "C:\Program Files\Microsoft\Exchange Server\V15\Logging"
+Get-ChildItem -Path $logPath -Recurse -Include *.log | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-15)} | Remove-Item -Force
