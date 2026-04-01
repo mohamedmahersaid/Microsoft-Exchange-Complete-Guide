@@ -1,0 +1,45 @@
+# PowerShell specific
+*.ps1.bak
+*.psm1.bak
+*.psd1.bak
+
+# Exchange configuration and sensitive data
+*.xml
+*config*.ps1
+*credential*.ps1
+*secret*.ps1
+*.pfx
+*.cer
+*.key
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+Logs/
+Temp/
+*.txt.bak
+
+# Local environment files
+local.config
+.env
+.env.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build and output artifacts
+bin/
+obj/
+out/
+
+# User-specific files
+*.suo
+*.user
+.vs/
